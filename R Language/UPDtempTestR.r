@@ -1,5 +1,7 @@
-/#install.packages("DBI")
-/#install.packages("RMySQL")
+#install.packages("DBI")
+#install.packages("RMySQL")
+#install.packages("ggplot2")
+library(ggplot2)
 library(DBI)
 library(RMySQL)
 
@@ -11,7 +13,7 @@ result=dbSendQuery (con,"select * from temp")
 #-----------------------
 #Taking columns from database
 #-----------------------
-data=fetch(result,n=3)
+data=fetch(result,n=-1)
 temp=subset(data,select=c(temp))
 
 humidity=subset(data,select=c(hum))
@@ -35,11 +37,18 @@ dbDisconnect(con)
 #---------------------
 con<-dbConnect(MySQL(),host="localhost",dbname="temp",user="root",password="")
 
-
-dbWriteTable(con, "temp_sum", temp.data,overwrite=TRUE)
+#dbWriteTable(con,"temp_sum", temp.data,overwrite=FALSE,append=TRUE) #if overwrite false and append true add new to colum
 
 
 dbDisconnect(con)
 #----------------------
+#line chart for temperature vs humidity
+#----------------------
+print(data)
+png("myplot.png")
+myplot=ggplot(data,aes(y = hum,x = temp)) + geom_line() +ggtitle("Temp VS Humidity")
+print(myplot)
+dev.off()
+#------------------------------------
 
 
