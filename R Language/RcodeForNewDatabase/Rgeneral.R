@@ -2,66 +2,30 @@
 #install.packages("RMySQL")
 #install.packages("ggplot2")
 #install.packages("lubridate")
-#install.packages("tidyverse")
+
 library(ggplot2)
 library(DBI)
 library(RMySQL)
-library(tidyverse)
 library(lubridate)
 #Database Connection and Retrivieng Values
 #======================================================================
 #======================================================================
-
 con<-dbConnect(MySQL(),host="localhost",dbname="anildata",user="root",password="")
 result=dbSendQuery (con,"select * from temphum")
+data=fetch(result,n=-1)
 
-#data=fetch(result,n=-1)
 #temperature=subset(data,select=c(temperature))
 #humidity=subset(data,select=c(humidity))
-
-
-#Time stamps
-#=====================================================================
-#=====================================================================
-#result2=dbSendQuery (con,"select * from temphum where user_id=12327")
-#data2=fetch(result2,n=-1)
-#dbClearResult(result2)
-#print (data2)
-
-
-#timeR=subset(data,select=c(created_date))
-#print(timeR)
-
-#yearR=format(as.Date(timeR$created_date,format="%Y-%m-%d %H:%M:%S"), "%Y")
-#print(yearR)
-
-#monthR=format(as.Date(timeR$created_date,format="%Y-%m-%d %H:%M:%S"), "%m")
-#print(monthR)
-
-#dayR=format(as.Date(timeR$created_date,format="%Y-%m-%d %H:%M:%S"), "%d")
-#print(dayR)
-
-#hoursR=format(as.POSIXct(timeR$created_date,format="%Y-%m-%d %H:%M:%S"), "%H")
-#print(hoursR)
-
-#minutesR=format(as.POSIXct(timeR$created_date,format="%Y-%m-%d %H:%M:%S"), "%M")
-#print(minutesR)
-
-#secondsR=format(as.POSIXct(timeR$created_date,format="%Y-%m-%d %H:%M:%S"), "%S")
-#print(secondsR)
-
-
-
 
 
 #Function to sum totalValues like (temperature,humidity)
 #======================================================================
 #======================================================================
-calcSum<-function(x)
-{
-  resultCalc<-(sum(x))
-  return(resultCalc)
-}
+#calcSum<-function(x)
+#{
+  #resultCalc<-(sum(x))
+ # return(resultCalc)
+#}
 #calcSum(temperature)
 #calcSum(humidity)
 
@@ -69,14 +33,7 @@ tempVal=calcSum(data$temperature)
 humVal=calcSum(data$humidity)
 print(tempVal)
 print(humVal)
-
-
-#seperating date to parts
-#======================================================================
-#======================================================================
-#datetxt=subset(data,select = c(created_date), header=TRUE, stringsAsFactors = FALSE, na.strings = 'NA', strip.white = TRUE)
-#print(datetxt)
-#datetxt$date <- as.POSIXct(datetxt$date,format = "%d/%m/%Y %H:%M:%S",tz=Sys.timezone())
+print (mean(data$temperature))
 
 #making data frames to write to database
 #======================================================================
@@ -97,18 +54,81 @@ print(myplot)
 dev.off()
 
 
-data$month = format(as.Date(timeR$created_date), "%m")
-dataMonth = as.numeric(format(as.Date(timeR$created_date), "%m"))
+#Taking Month,Year,Day
+#======================================================================
+#======================================================================
+df$created_date<-as.Date(data$created_date)
+df$Month<- months(df$created_date)
+df$Year <- format(df$created_date,format="%y")
+df$Day <- format(df$created_date,format="%d/%m/%y")
 
-print(data$created_date)
-print(data)
+#Average temperature per year and month
+#======================================================================
+#======================================================================
 
-png("tempVstime.png")
+avgTempMonth=aggregate(data$temperature ~ Month + Year , df , mean )
+print(avgTempMonth)
+dbWriteTable(con,"averagemonthtemp", avgTempMonth,overwrite=TRUE,append=FALSE)
 
-myplot2=barplot(data$temperature,names.arg=data$sensor_id,xlab="sensor_id",ylab="Temperature",col="blue",main="Temperature chart",border="black")
-print(myplot2)
+#=====plot===========
+
+result2=dbSendQuery (con,"select * from averagemonthtemp")
+dataMonthTemp=fetch(result2,n=-1)
+png("AvgtempMonthVstime.png")
+myplot3=barplot(dataMonthTemp$`data$temperature`,names.arg=dataMonthTemp$Month,xlab="Month",ylab="Temperature",col="blue",main="Temperature chart",border="black")
+print(myplot3)
 dev.off()
+dbClearResult(result2)
 
+#Average temperature per year and day and year
+#======================================================================
+#======================================================================
+
+avgTempDay=aggregate(data$temperature ~ Month + Day+Year , df , mean )
+print(avgTempDay)
+dbWriteTable(con,"averagedaytemp", avgTempDay,overwrite=TRUE,append=FALSE)
+#=====plot===========
+
+result3=dbSendQuery (con,"select * from averagedaytemp")
+dataDayTemp=fetch(result3,n=-1)
+png("AvgDayMonthTempVstime.png")
+myplot3=barplot(dataDayTemp$`data$temperature`,names.arg=dataDayTemp$Day,xlab="Day",ylab="Temperature",col="blue",main="Temperature chart",border="black")
+print(myplot3)
+dev.off()
+dbClearResult(result3)
+
+
+#Average humidity per year and month
+#======================================================================
+#======================================================================
+avgHumMonth=aggregate(data$humidity ~ Month + Year , df , mean )
+print(avgHumMonth)
+dbWriteTable(con,"averagehumiditymonth", avgHumMonth,overwrite=TRUE,append=FALSE)
+#=====plot===========
+result4=dbSendQuery (con,"select * from averagehumiditymonth")
+dataMonthHum=fetch(result4,n=-1)
+png("AvgHumidityMonthVstime.png")
+myplot=barplot(dataMonthHum$`data$humidity`,names.arg=dataMonthHum$Month,xlab="Month",ylab="Humidity",col="blue",main="Humidity chart",border="black")
+print(myplot)
+dev.off()
+dbClearResult(result4)
+
+#Average humidity per year and day and year
+#======================================================================
+#======================================================================
+
+avgHumDay=aggregate(data$humidity ~ Month + Day+Year , df , mean )
+print(avgHumDay)
+dbWriteTable(con,"averagedayhum", avgHumDay,overwrite=TRUE,append=FALSE)
+#=====plot===========
+
+result5=dbSendQuery (con,"select * from averagedayhum")
+dataDayHum=fetch(result5,n=-1)
+png("AvgHumidityDayMonthVstime.png")
+myplot=barplot(dataDayHum$`data$humidity`,names.arg=dataDayHum$Day,xlab="Day",ylab="Humidity",col="blue",main="Temperature chart",border="black")
+print(myplot)
+dev.off()
+dbClearResult(result5)
 
 
 #clear result set and closing connection with database
