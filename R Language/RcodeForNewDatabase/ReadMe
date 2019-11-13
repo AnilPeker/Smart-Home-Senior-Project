@@ -1,8 +1,0 @@
-New database (Updated)
-
-1)Connection to Databse
-2)Fetching values
-3)CalcSum function
-4)Data.frame creation (temp and humidity)
-5)Writing to Database (temp and humidity)
-6)plot graph (temp vs humidity)

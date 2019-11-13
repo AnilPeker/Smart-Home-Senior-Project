@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true"
+    android:background="@drawable/background">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="textMultiLine"
+                android:text="Main Door Lock Status:"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/mainDoorLockValue"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@android:color/darker_gray"
+                android:textSize="15dp" />
+
+            <Button
+                android:id="@+id/mainDoorLockButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="LOCK/UNLOCK" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Main Door Status:"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/mainDoorValue"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@android:color/darker_gray"
+                android:textSize="15dp" />
+
+            <Button
+                android:id="@+id/mainDoorButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="OPEN/CLOSE" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Window Status:"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/windowValue"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@android:color/darker_gray"
+                android:textSize="15dp" />
+
+            <Button
+                android:id="@+id/windowButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="OPEN/CLOSE" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Garage Door Lock Status:"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/garageDoorValue"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@android:color/darker_gray"
+                android:textSize="15dp" />
+
+            <Button
+                android:id="@+id/garageDoorButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="OPEN/CLOSE" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

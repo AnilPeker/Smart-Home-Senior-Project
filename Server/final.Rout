@@ -1,0 +1,48 @@
+
+R version 3.6.0 (2019-04-26) -- "Planting of a Tree"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R özgür bir yazýlýmdýr ve KESÝNLÝKLE BÝR GARANTÝ VERMEZ.
+Belli koþullar altýnda tekrar daðýtýmýna izin verilir.
+Daðýtým detaylarý için 'license()' ya da 'licence()' girin.
+
+R, bir çok insanýn katkýda bulunduðu ortak bir projedir
+Daha fazla bilgi için 'contributors()' girin.
+Yayýnlarda R veya R paketlerinden alýntý yapmak için 'citation()' girin.
+
+Birkaç örnek için 'demo()', çevrimiçi yardým için 'help()' veya
+HTML tarayýcýlý yardýmý açmak için 'help.start()' girin.
+R'den çýkmak için 'q()' girin.
+
+[Kaydedilen çalýþma alaný geri yüklendi]
+
+> #install.packages("DBI")
+> #install.packages("RMySQL")
+> #install.packages("ggplot2")
+> #install.packages("lubridate")
+> 
+> library(ggplot2)
+Registered S3 methods overwritten by 'ggplot2':
+  method         from 
+  [.quosures     rlang
+  c.quosures     rlang
+  print.quosures rlang
+> library(DBI)
+> library(RMySQL)
+> library(lubridate)
+
+Attaching package: 'lubridate'
+
+The following object is masked from 'package:base':
+
+    date
+
+> #Database Connection and Retrivieng Values
+> #======================================================================
+> #======================================================================
+> con<-dbConnect(MySQL(),host="localhost",dbname="androiddeft",user="root",password="")
+Error in .local(drv, ...) : 
+  Failed to connect to database: Error: Can't connect to MySQL server on 'localhost' (0)
+Calls: dbConnect -> dbConnect -> .local -> .Call
+Çalýþtýrma durduruldu
